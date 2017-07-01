@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.akshaydesai.drinkmate.MainMenu">
+
+    <Button
+        android:id="@+id/StartButton"
+        android:layout_width="300dp"
+        android:layout_height="80dp"
+        android:layout_marginBottom="40dp"
+        android:layout_marginLeft="40dp"
+        android:layout_marginRight="40dp"
+        android:text="Start"
+        app:layout_constraintBottom_toTopOf="@+id/RecordsButton"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        android:onClick= "startClicked"/>
+
+    <Button
+        android:id="@+id/RecordsButton"
+        android:layout_width="300dp"
+        android:layout_height="80dp"
+        android:layout_marginBottom="40dp"
+        android:layout_marginLeft="40dp"
+        android:layout_marginRight="40dp"
+        android:text="Records"
+        app:layout_constraintBottom_toTopOf="@+id/SettingsButton"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        android:onClick= "recordsClicked"/>
+
+    <Button
+        android:id="@+id/SettingsButton"
+        android:layout_width="300dp"
+        android:layout_height="80dp"
+        android:layout_marginBottom="40dp"
+        android:layout_marginLeft="40dp"
+        android:layout_marginRight="40dp"
+        android:text="Settings"
+        app:layout_constraintBottom_toTopOf="@+id/AboutButton"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        android:onClick= "settingsClicked"/>
+
+    <Button
+        android:id="@+id/AboutButton"
+        android:layout_width="300dp"
+        android:layout_height="80dp"
+        android:layout_marginBottom="41dp"
+        android:layout_marginLeft="40dp"
+        android:layout_marginRight="40dp"
+        android:text="About"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        android:onClick= "aboutClicked"/>
+
+</android.support.constraint.ConstraintLayout>

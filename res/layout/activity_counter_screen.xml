@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.akshaydesai.drinkmate.CounterScreen">
+
+
+    <ImageButton
+        android:id="@+id/Mixed"
+        android:layout_width="145dp"
+        android:layout_height="145dp"
+        app:srcCompat="@drawable/mixed"
+        android:scaleType="fitCenter"
+        android:adjustViewBounds="true"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="16dp"
+        app:layout_constraintRight_toLeftOf="@+id/Shot"
+        android:layout_marginRight="24dp"
+        android:layout_marginLeft="24dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:onClick= "mixedClicked"/>
+
+    <ImageButton
+        android:id="@+id/Shot"
+        android:layout_width="145dp"
+        android:layout_height="145dp"
+        app:srcCompat="@drawable/shot"
+        android:scaleType="fitCenter"
+        android:adjustViewBounds="true"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="16dp"
+        android:layout_marginRight="25dp"
+        app:layout_constraintRight_toRightOf="parent"
+        android:onClick= "shotClicked"/>
+
+    <ImageButton
+        android:id="@+id/Wine"
+        android:layout_width="145dp"
+        android:layout_height="145dp"
+        app:srcCompat="@drawable/wine"
+        android:scaleType="fitCenter"
+        android:adjustViewBounds="true"
+        app:layout_constraintRight_toLeftOf="@+id/Beer"
+        android:layout_marginRight="24dp"
+        android:layout_marginLeft="24dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintHorizontal_bias="0.512"
+        android:layout_marginTop="24dp"
+        app:layout_constraintTop_toBottomOf="@+id/Mixed"
+        android:onClick= "wineClicked"/>
+
+    <ImageButton
+        android:id="@+id/Beer"
+        android:layout_width="145dp"
+        android:layout_height="145dp"
+        android:adjustViewBounds="true"
+        android:scaleType="fitCenter"
+        app:srcCompat="@drawable/beer"
+        android:layout_marginRight="25dp"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_marginTop="24dp"
+        app:layout_constraintTop_toBottomOf="@+id/Shot"
+        android:onClick= "beerClicked"/>
+
+</android.support.constraint.ConstraintLayout>
