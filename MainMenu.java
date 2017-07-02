@@ -8,21 +8,21 @@ import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.database.SQLException;
-import android.provider.BaseColumns;
 import android.content.Context;
 
 public class MainMenu extends AppCompatActivity{
 
-    Context con = getApplication();
-    SQLiteDatabase myDB = context.openOrCreateDatabase("DMDB", MODE_PRIVATE, null);
-    String UserInfo = "UserInfo";
-    String sex = "Sex";
-    String weight = "Weight";
-    myDB.execSQL("CREATE TABLE "+UserInfo+" ("+sex+" TEXT PRIMARY KEY,"+weight+" INTEGER)";);
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Context con = getApplication();
+
+        Intent intent = new Intent (con, DbMethods.class);
+        intent.putExtra("order", "create");
+        startService(intent);
+
         setContentView(R.layout.activity_main_menu);
     }
 
