@@ -54,16 +54,18 @@
             >
 
             <RadioButton
-                android:id="@+id/radioButton2"
+                android:id="@+id/maleButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/male" />
+                android:text="@string/male"
+                android:onClick="sexEntered"/>
 
             <RadioButton
-                android:id="@+id/radioButton"
+                android:id="@+id/femaleButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/female" />
+                android:text="@string/female"
+                android:onClick="sexEntered"/>
         </RadioGroup>
 
         <TextView
@@ -98,6 +100,7 @@
             android:textSize="15sp"
             android:layout_below="@id/sexGroup"
             android:layout_marginLeft="5dp"
+            android:onClick="enterClicked"
             />
     </RelativeLayout>
 
