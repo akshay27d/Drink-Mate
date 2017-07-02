@@ -1,5 +1,6 @@
 package com.example.akshaydesai.drinkmate;
 
+import android.database.Cursor;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -12,38 +13,45 @@ import android.content.Context;
 
 public class MainMenu extends AppCompatActivity{
 
-
+    protected Intent Db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Context con = getApplication();
 
-        Intent intent = new Intent (con, DbMethods.class);
-        intent.putExtra("order", "create");
-        startService(intent);
+        Db = new Intent (con, DbMethods.class);
+        Db.putExtra("order", "create");
+        startService(Db);
 
         setContentView(R.layout.activity_main_menu);
     }
 
     public void startClicked(View view){
         Intent intent = new Intent(this, CounterScreen.class);
+        intent.putExtra("Db", Db);
         startActivity(intent);
     }
 
     public void recordsClicked(View view){
         Intent intent = new Intent(this, RecordsActivity.class);
+        intent.putExtra("Db", Db);
         startActivity(intent);
     }
 
     public void settingsClicked(View view){
         Intent intent = new Intent(this, SettingsActivity.class);
+        intent.putExtra("Db", Db);
         startActivity(intent);
     }
 
     public void aboutClicked(View view){
         Intent intent = new Intent(this, AboutActivity.class);
+        intent.putExtra("Db", Db);
         startActivity(intent);
+
+
     }
+
 
 }
