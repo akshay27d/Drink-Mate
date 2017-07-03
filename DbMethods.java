@@ -15,6 +15,8 @@ import android.database.SQLException;
 import android.content.ContentValues;
 import android.database.Cursor;
 
+import java.util.concurrent.TimeUnit;
+
 public class DbMethods extends IntentService{
     public DbMethods() {
         super("DbMethods");
@@ -30,6 +32,7 @@ public class DbMethods extends IntentService{
         Context con = getApplication();
         SQLiteDatabase myDB = con.openOrCreateDatabase("DMDB", MODE_PRIVATE, null);
 
+        Log.d("HERE", "HERE");
 
         if (order.equals("create")){
             create(myDB);
@@ -40,8 +43,8 @@ public class DbMethods extends IntentService{
         else if (orders[0].equals("weightEntered")){
             weightEntered(Integer.parseInt(orders[1]), myDB);
         }
-        else if (order.equals("getUserInfo")){
-            //getUserInfo(myDB);
+        else if (orders[0].equals("drinkEntered")){
+            drinkEntered(orders[1], myDB);
         }
     }
 
@@ -52,10 +55,16 @@ public class DbMethods extends IntentService{
         String ID = "Id";
         String create = "CREATE TABLE IF NOT EXISTS "+UserInfo+" ( "+ID+" INTEGER PRIMARY KEY, "+sex+" TEXT ,"+weight+" INTEGER);";
         myDB.execSQL(create);
+
+        String countTable = "CountTable";
+        String time = "Time";
+        String type = "Type";
+        create = "CREATE TABLE IF NOT EXISTS "+countTable+" ( "+time+" DATETIME PRIMARY KEY DEFAULT CURRENT_TIMESTAMP, "+type+" TEXT);";
+        myDB.execSQL(create);
         myDB.close();
     }
 
-    public void sexEntered(String sex, SQLiteDatabase myDB){            //True for Male, False for Female
+    public void sexEntered(String sex, SQLiteDatabase myDB){
         Log.d("SEX", sex);
         ContentValues myVals = new ContentValues();
         myVals.put("Sex" , sex);
@@ -68,7 +77,7 @@ public class DbMethods extends IntentService{
         myDB.close();
     }
 
-    public void weightEntered(int weight, SQLiteDatabase myDB){            //True for Male, False for Female
+    public void weightEntered(int weight, SQLiteDatabase myDB){
         Log.d("WEIGHT", Integer.toString(weight));
         ContentValues myVals = new ContentValues();
         myVals.put("Weight" , weight);
@@ -81,16 +90,20 @@ public class DbMethods extends IntentService{
         myDB.close();
     }
 
-    public User getUserInfo(){
-        Context con = getApplication();
-        SQLiteDatabase myDB = con.openOrCreateDatabase("DMDB", MODE_PRIVATE, null);
-        Cursor curs = myDB.query("UserInfo", null, null, null, null, null, null);
-        curs.moveToFirst();
-        String s = curs.getString(1);
-        int w = curs.getInt(2);
+    public void drinkEntered(String type,SQLiteDatabase myDB){
+        Log.d("Drinke", type);
+        ContentValues myVals = new ContentValues();
+        myVals.put("Type" , type);
+        boolean goOn= false;
 
-        User retval = new User(s,w);
-        return retval;
-
+        while (!goOn) {
+            try {
+                myDB.insertOrThrow("CountTable", null, myVals);
+                goOn = true;
+            } catch (SQLException e) {
+                try {TimeUnit.SECONDS.sleep(1);} catch (Exception d) {}
+            }
+        }
     }
+
 }
