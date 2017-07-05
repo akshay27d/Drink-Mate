@@ -6,9 +6,9 @@ package com.example.akshaydesai.drinkmate;
 
 public class User {
     protected String sex;
-    protected int weight;
+    protected double weight;
 
-    public User(String sx, int wt){
+    public User(String sx, double wt){
         sex = sx;
         weight = wt;
     }
@@ -17,7 +17,7 @@ public class User {
         return sex;
     }
 
-    public int getWeight(){
+    public double getWeight(){
         return weight;
     }
 

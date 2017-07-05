@@ -41,7 +41,7 @@ public class DbMethods extends IntentService{
             sexEntered(orders[1], myDB);
         }
         else if (orders[0].equals("weightEntered")){
-            weightEntered(Integer.parseInt(orders[1]), myDB);
+            weightEntered(Double.parseDouble(orders[1]), myDB);
         }
         else if (orders[0].equals("drinkEntered")){
             drinkEntered(orders[1], myDB);
@@ -77,8 +77,8 @@ public class DbMethods extends IntentService{
         myDB.close();
     }
 
-    public void weightEntered(int weight, SQLiteDatabase myDB){
-        Log.d("WEIGHT", Integer.toString(weight));
+    public void weightEntered(double weight, SQLiteDatabase myDB){
+        Log.d("WEIGHT", Double.toString(weight));
         ContentValues myVals = new ContentValues();
         myVals.put("Weight" , weight);
         myVals.put("Id" , 0);

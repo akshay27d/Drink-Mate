@@ -12,6 +12,9 @@ import android.widget.Button;
 import android.widget.Toast;
 import java.util.Date;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.TimeZone;
+
 
 import java.util.concurrent.TimeUnit;
 
@@ -19,13 +22,14 @@ public class CounterScreen extends AppCompatActivity {
 
     protected User user;
     protected Intent Db;
-
+    protected int count;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_counter_screen);
-        getCT();
+        checkUI();
+        calculateBAC();
     }
 
     public void mixedClicked(View view){
@@ -73,10 +77,10 @@ public class CounterScreen extends AppCompatActivity {
 
         try {
             String s = curs.getString(1);
-            int w = curs.getInt(2);
+            double w = curs.getDouble(2);
             User temp = new User(s, w);
             user = temp;
-            Toast.makeText(con, user.getSex()+" "+ Integer.toString(user.getWeight())+" lbs", 1).show();
+            Toast.makeText(con, user.getSex()+" "+ Double.toString(user.getWeight())+" lbs", 1).show();
 
         }catch(Exception e){
             Toast.makeText(con, "ERROR: Please enter your sex and weight in Settings", 1).show();
@@ -85,21 +89,25 @@ public class CounterScreen extends AppCompatActivity {
     }
 
     public void getCT(){
+        count =0;
         Context con = getApplication();
         SQLiteDatabase myDB = con.openOrCreateDatabase("DMDB", MODE_PRIVATE, null);
         Cursor curs = myDB.query("CountTable", null, "Time >= datetime('now', '-12 hours')", null, null, null, null);
         curs.moveToFirst();
         SimpleDateFormat form = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        form.setTimeZone(TimeZone.getTimeZone("GMT"));
         Date s=null;
         try{s = form.parse(curs.getString(0));}catch (Exception e){}
         String d = curs.getString(1);
         Log.d("//////////////  ", s + " " + d);
+        count++;
 
         do {
             curs.moveToNext();
             try{s = form.parse(curs.getString(0));}catch (Exception e){}
             d = curs.getString(1);
             Log.d("//////////////  ", s + " " + d);
+            count++;
 
         } while(!curs.isLast());
     }
@@ -113,6 +121,7 @@ public class CounterScreen extends AppCompatActivity {
         try {
             curs.moveToFirst();
             SimpleDateFormat form = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            form.setTimeZone(TimeZone.getTimeZone("GMT"));
             try {
                 s = form.parse(curs.getString(0));
             } catch (Exception e) {
@@ -126,10 +135,19 @@ public class CounterScreen extends AppCompatActivity {
     }
     public void calculateBAC(){
         Date first = get1stDrink();
-        if(first != null){
-            //GOOD
-        }
+        SimpleDateFormat form = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Date current= new Date();
 
+        double diff = current.getTime() - first.getTime();
+        double diffMinutes = diff / (60 * 1000);
+        double diffHours = diff / (60 * 60 * 1000);
+        Log.d("TEST RESULT", Double.toString(diffMinutes));
+        getCT();
+
+
+        double bac = ((count*1.5)/user.getWeight()*(user.getSex().equals("Male") ? .73 : .66)*5.14)-.015*(diffMinutes/60.0);
+
+        Log.d("FINAL BAC", Double.toString(bac));
     }
 
 }
