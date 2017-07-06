@@ -43,9 +43,6 @@ public class DbMethods extends IntentService{
         else if (orders[0].equals("weightEntered")){
             weightEntered(Double.parseDouble(orders[1]), myDB);
         }
-        else if (orders[0].equals("drinkEntered")){
-            drinkEntered(orders[1], myDB);
-        }
     }
 
     public void create(SQLiteDatabase myDB){
@@ -90,20 +87,5 @@ public class DbMethods extends IntentService{
         myDB.close();
     }
 
-    public void drinkEntered(String type,SQLiteDatabase myDB){
-        Log.d("Drinke", type);
-        ContentValues myVals = new ContentValues();
-        myVals.put("Type" , type);
-        boolean goOn= false;
-
-        while (!goOn) {
-            try {
-                myDB.insertOrThrow("CountTable", null, myVals);
-                goOn = true;
-            } catch (SQLException e) {
-                try {TimeUnit.SECONDS.sleep(1);} catch (Exception d) {}
-            }
-        }
-    }
 
 }
