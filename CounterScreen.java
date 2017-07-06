@@ -30,7 +30,7 @@ public class CounterScreen extends AppCompatActivity {
 
     protected User user;
     protected Intent Db;
-    protected int count;
+    protected double count;
     protected int mixed;
     protected int shot;
     protected int wine;
@@ -54,17 +54,31 @@ public class CounterScreen extends AppCompatActivity {
 
     public void mixedClicked(View view){
         Log.d("GOOD", "worked1");
-        drinkEntered("Mixed");
+
+        Intent intent = getIntent();
+        Bundle extras = intent.getExtras();
+        Db = (Intent) extras.get("Db");
+        Db.putExtra("order", "drinkEntered Mixed");
+        startService(Db);
+
         count++;
         mixed++;
         updateMixedCount();
+        Log.d("COUNTS", Double.toString(count));
         calculateBAC();
+
 
     }
 
     public void shotClicked(View view){
         Log.d("GOOD", "worked2");
-        drinkEntered("Shot");
+
+        Intent intent = getIntent();
+        Bundle extras = intent.getExtras();
+        Db = (Intent) extras.get("Db");
+        Db.putExtra("order", "drinkEntered Shot");
+        startService(Db);
+
         count++;
         shot++;
         updateShotCount();
@@ -73,7 +87,13 @@ public class CounterScreen extends AppCompatActivity {
 
     public void wineClicked(View view){
         Log.d("GOOD", "worked3");
-        drinkEntered("Wine");
+
+        Intent intent = getIntent();
+        Bundle extras = intent.getExtras();
+        Db = (Intent) extras.get("Db");
+        Db.putExtra("order", "drinkEntered Wine");
+        startService(Db);
+
         count++;
         wine++;
         updateWineCount();
@@ -82,30 +102,17 @@ public class CounterScreen extends AppCompatActivity {
 
     public void beerClicked(View view){
         Log.d("GOOD", "worked4");
-        drinkEntered("Beer");
+
+        Intent intent = getIntent();
+        Bundle extras = intent.getExtras();
+        Db = (Intent) extras.get("Db");
+        Db.putExtra("order", "drinkEntered Beer");
+        startService(Db);
+
         count++;
         beer++;
         updateBeerCount();
         calculateBAC();
-    }
-
-    public void drinkEntered(String type){
-        Context con = getApplication();
-        SQLiteDatabase myDB = con.openOrCreateDatabase("DMDB", MODE_PRIVATE, null);
-
-        Log.d("Drinke", type);
-        ContentValues myVals = new ContentValues();
-        myVals.put("Type" , type);
-        boolean goOn= false;
-
-        while (!goOn) {
-            try {
-                myDB.insertOrThrow("CountTable", null, myVals);
-                goOn = true;
-            } catch (SQLException e) {
-                try {TimeUnit.SECONDS.sleep(1);} catch (Exception d) {}
-            }
-        }
     }
 
 
@@ -220,14 +227,22 @@ public class CounterScreen extends AppCompatActivity {
         try {
             Date first = get1stDrink();
             SimpleDateFormat form = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-            Date current = new Date();
-
-            double diff = current.getTime() - first.getTime();
-            double diffMinutes = diff / (60 * 1000);
-            double diffHours = diff / (60 * 60 * 1000);
-            Log.d("TEST RESULT", Double.toString(diffMinutes));
+            double diffMinutes;
+            if(count==1){
+                diffMinutes=0;
+            }
+            else {
+                Date current = new Date();
+                double diff = current.getTime() - first.getTime();
+                diffMinutes = diff / (60 * 1000);
+                Log.d("TEST RESULT", Double.toString(diffMinutes));
+            }
             bac = ((count * 1.5) / user.getWeight() * (user.getSex().equals("Male") ? .73 : .66) * 5.14) - .015 * (diffMinutes / 60.0);
-        }catch(Exception e){}
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+
+        Log.d("BACCC", Double.toString(bac));
 
         updateBAC(bac);
     }
@@ -276,5 +291,7 @@ public class CounterScreen extends AppCompatActivity {
         TS.addView(text);
         text.setText("BAC \n " + Double.toString(new BigDecimal(bac)
                 .setScale(4,RoundingMode.HALF_DOWN).doubleValue()));
+        Log.d("COUNTBBBACCCS", Double.toString(bac));
+
     }
 }

@@ -32,7 +32,7 @@ public class DbMethods extends IntentService{
         Context con = getApplication();
         SQLiteDatabase myDB = con.openOrCreateDatabase("DMDB", MODE_PRIVATE, null);
 
-        Log.d("HERE", "HERE");
+       // Log.d(orders[0],orders[1]);
 
         if (order.equals("create")){
             create(myDB);
@@ -42,6 +42,9 @@ public class DbMethods extends IntentService{
         }
         else if (orders[0].equals("weightEntered")){
             weightEntered(Double.parseDouble(orders[1]), myDB);
+        }
+        else if (orders[0].equals("drinkEntered")){
+            drinkEntered(orders[1], myDB);
         }
     }
 
@@ -59,6 +62,22 @@ public class DbMethods extends IntentService{
         create = "CREATE TABLE IF NOT EXISTS "+countTable+" ( "+time+" DATETIME PRIMARY KEY DEFAULT CURRENT_TIMESTAMP, "+type+" TEXT);";
         myDB.execSQL(create);
         myDB.close();
+    }
+
+    public void drinkEntered(String type, SQLiteDatabase myDB){
+        Log.d("Drinke", type);
+        ContentValues myVals = new ContentValues();
+        myVals.put("Type" , type);
+        boolean goOn= false;
+
+        while (!goOn) {
+            try {
+                myDB.insertOrThrow("CountTable", null, myVals);
+                goOn = true;
+            } catch (SQLException e) {
+                try {TimeUnit.SECONDS.sleep(1);} catch (Exception d) {}
+            }
+        }
     }
 
     public void sexEntered(String sex, SQLiteDatabase myDB){
