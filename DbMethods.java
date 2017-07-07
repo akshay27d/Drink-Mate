@@ -32,8 +32,6 @@ public class DbMethods extends IntentService{
         Context con = getApplication();
         SQLiteDatabase myDB = con.openOrCreateDatabase("DMDB", MODE_PRIVATE, null);
 
-       // Log.d(orders[0],orders[1]);
-
         if (order.equals("create")){
             create(myDB);
         }

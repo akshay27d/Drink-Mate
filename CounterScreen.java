@@ -25,6 +25,7 @@ import android.view.animation.TranslateAnimation;
 import java.text.DecimalFormat;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import android.graphics.Color;
 
 public class CounterScreen extends AppCompatActivity {
 
@@ -41,13 +42,11 @@ public class CounterScreen extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_counter_screen);
         checkUI();
-        initialize();
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        setContentView(R.layout.activity_counter_screen);
         initialize();
         Log.d("ON RESUME", "Achieved");
     }
@@ -127,7 +126,7 @@ public class CounterScreen extends AppCompatActivity {
             double w = curs.getDouble(2);
             User temp = new User(s, w);
             user = temp;
-            Toast.makeText(con, user.getSex()+" "+ Double.toString(user.getWeight())+" lbs", 1).show();
+            Toast.makeText(con, user.getSex()+" "+ Double.toString(user.getWeight())+" lbs", 0).show();
 
         }catch(Exception e){
             Toast.makeText(con, "ERROR: Please enter your sex and weight in Settings", 1).show();
@@ -198,7 +197,11 @@ public class CounterScreen extends AppCompatActivity {
         TextView wineDP = (TextView)findViewById(R.id.wineDP);
         wineDP.setText("Wines: " +Integer.toString(wine));
 
+        TextView totalDP = (TextView)findViewById(R.id.totalDP);
+        totalDP.setText("Total: " +Integer.toString(shot+beer+mixed+wine));
+
         calculateBAC();
+
     }
 
     public Date get1stDrink(){
@@ -289,9 +292,14 @@ public class CounterScreen extends AppCompatActivity {
 
         TS.removeView(text);
         TS.addView(text);
+        if(bac >= 0.25)
+            text.setTextColor(Color.parseColor("#ff0000"));
+        else if (bac<=0.08)
+            text.setTextColor(Color.parseColor("#00e600"));
+        else
+            text.setTextColor(Color.parseColor("#e6e600"));
         text.setText("BAC \n " + Double.toString(new BigDecimal(bac)
                 .setScale(4,RoundingMode.HALF_DOWN).doubleValue()));
-        Log.d("COUNTBBBACCCS", Double.toString(bac));
 
     }
 }
