@@ -4,37 +4,52 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.akshaydesai.drinkmate.AboutActivity">
+    tools:context="com.example.akshaydesai.drinkmate.AboutActivity"
+    android:background="#1f1f2e">
 
     <TextView
-        android:id="@+id/textView2"
+        android:id="@+id/aboutHeader"
         android:layout_width="268dp"
         android:layout_height="110dp"
         android:gravity="center"
         android:text="@string/aboutTitle"
         android:textSize="65sp"
-        app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginTop="80dp"
         android:layout_marginRight="80dp"
         app:layout_constraintRight_toRightOf="parent"
         android:layout_marginLeft="80dp"
-        app:layout_constraintLeft_toLeftOf="parent" />
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:textColor="#D4AF37"
+        app:layout_constraintHorizontal_bias="0.529"
+        android:layout_marginTop="40dp"
+        app:layout_constraintTop_toBottomOf="@+id/imageView3" />
 
     <TextView
         android:id="@+id/AboutText"
-        android:layout_width="290dp"
-        android:layout_height="223dp"
+        android:layout_width="288dp"
+        android:layout_height="334dp"
         android:text="@string/aboutBody"
-        android:layout_marginTop="40dp"
-        app:layout_constraintTop_toBottomOf="@+id/textView2"
         android:layout_marginLeft="40dp"
         app:layout_constraintLeft_toLeftOf="parent"
         android:layout_marginRight="40dp"
         app:layout_constraintRight_toRightOf="parent"
         android:textSize="15sp"
-        />
+        android:textColor="#D4AF37"
+        android:gravity="center"
+        app:layout_constraintHorizontal_bias="0.488"
+        android:layout_marginTop="24dp"
+        app:layout_constraintTop_toBottomOf="@+id/aboutHeader" />
 
-
+    <ImageView
+        android:id="@+id/imageView3"
+        android:layout_width="364dp"
+        android:layout_height="75dp"
+        app:srcCompat="@drawable/title"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="0dp"
+        android:layout_marginLeft="0dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:layout_marginRight="0dp"
+        app:layout_constraintRight_toRightOf="parent" />
 
 
 </android.support.constraint.ConstraintLayout>

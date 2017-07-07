@@ -96,7 +96,10 @@
         "This app helps you keep track of your drinks and estimates your Blood Alcohol Content (BAC)\n\n"
         "Just a reminder, this is only an estimate of your BAC based on sex, weight, number of drinks and time elapsed\n\n"
         "There are other factors such as food intake, genes, etc.\n\n"
-        "Please Never Drink and Drive"</string>
+        "Please Never Drink and Drive\n\n"
+        "For more info about the signs associated with different BAC levels, please click <a href="http://www2.courtinfo.ca.gov/stopteendui/_pdf/stages_of_intoxication.pdf">here</a>
+
+    </string>
     <string name="settingsTitle">Settings</string>
     <string name="sex">Sex:</string>
     <string name="weight">Weight(lbs):</string>

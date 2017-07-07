@@ -5,7 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    tools:context="com.example.akshaydesai.drinkmate.RecordsActivity">
+    tools:context="com.example.akshaydesai.drinkmate.RecordsActivity"
+    android:background="#1f1f2e">
 
     <android.support.design.widget.AppBarLayout
         android:id="@+id/app_bar"

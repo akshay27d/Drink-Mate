@@ -10,6 +10,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.database.SQLException;
 import android.content.Context;
+import android.view.Window;
 
 public class MainMenu extends AppCompatActivity{
 
@@ -24,6 +25,8 @@ public class MainMenu extends AppCompatActivity{
         Db.putExtra("order", "create");
         startService(Db);
 
+
+        this.requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_main_menu);
     }
 
