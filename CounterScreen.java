@@ -26,6 +26,8 @@ import java.text.DecimalFormat;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import android.graphics.Color;
+import android.widget.ViewSwitcher.ViewFactory;
+import 	android.view.Gravity;
 
 public class CounterScreen extends AppCompatActivity {
 
@@ -36,12 +38,21 @@ public class CounterScreen extends AppCompatActivity {
     protected int shot;
     protected int wine;
     protected int beer;
+    protected TextSwitcher TSShot;
+    protected TextSwitcher TSBeer;
+    protected TextSwitcher TSMixed;
+    protected TextSwitcher TSWine;
+    protected TextSwitcher TSTotal;
+    protected TextSwitcher TSBac;
+    protected double bacGlobal =0;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_counter_screen);
         checkUI();
+        createTS();
     }
 
     @Override
@@ -63,7 +74,7 @@ public class CounterScreen extends AppCompatActivity {
         count++;
         mixed++;
         updateMixedCount();
-        Log.d("COUNTS", Double.toString(count));
+        updateTotalCount();
         calculateBAC();
 
 
@@ -81,6 +92,7 @@ public class CounterScreen extends AppCompatActivity {
         count++;
         shot++;
         updateShotCount();
+        updateTotalCount();
         calculateBAC();
     }
 
@@ -96,6 +108,7 @@ public class CounterScreen extends AppCompatActivity {
         count++;
         wine++;
         updateWineCount();
+        updateTotalCount();
         calculateBAC();
     }
 
@@ -111,6 +124,7 @@ public class CounterScreen extends AppCompatActivity {
         count++;
         beer++;
         updateBeerCount();
+        updateTotalCount();
         calculateBAC();
     }
 
@@ -185,20 +199,15 @@ public class CounterScreen extends AppCompatActivity {
 
         } while(true);
 
-        TextView shotDP = (TextView)findViewById(R.id.shotDP);
-        shotDP.setText("Shots: " +Integer.toString(shot));
+        updateShotCount();
 
-        TextView beerDP = (TextView)findViewById(R.id.beerDP);
-        beerDP.setText("Beers: " +Integer.toString(beer));
+        updateBeerCount();
 
-        TextView mixedDP = (TextView)findViewById(R.id.mixedDP);
-        mixedDP.setText("Mixes: " +Integer.toString(mixed));
+        updateMixedCount();
 
-        TextView wineDP = (TextView)findViewById(R.id.wineDP);
-        wineDP.setText("Wines: " +Integer.toString(wine));
+        updateWineCount();
 
-        TextView totalDP = (TextView)findViewById(R.id.totalDP);
-        totalDP.setText("Total: " +Integer.toString(shot+beer+mixed+wine));
+        updateTotalCount();
 
         calculateBAC();
 
@@ -251,55 +260,95 @@ public class CounterScreen extends AppCompatActivity {
     }
 
     public void updateShotCount(){
-        TextView text = (TextView)findViewById(R.id.shotDP);
-        TextSwitcher TS = (TextSwitcher)findViewById(R.id.shotCount);
-
-        TS.removeView(text);
-        TS.addView(text);
-        text.setText("Shots: " +Integer.toString(shot));
+        TSShot.setText("Shots: "+Integer.toString(shot));
     }
 
     public void updateBeerCount(){
-        TextView text = (TextView)findViewById(R.id.beerDP);
-        TextSwitcher TS = (TextSwitcher)findViewById(R.id.beerCount);
-
-        TS.removeView(text);
-        TS.addView(text);
-        text.setText("Beers: " +Integer.toString(beer));
+        TSBeer.setText("Beers: "+Integer.toString(beer));
     }
 
     public void updateMixedCount(){
-        TextView text = (TextView)findViewById(R.id.mixedDP);
-        TextSwitcher TS = (TextSwitcher)findViewById(R.id.mixedCount);
-
-        TS.removeView(text);
-        TS.addView(text);
-        text.setText("Mixes: " +Integer.toString(mixed));
+        TSMixed.setText("Mixes: " +Integer.toString(mixed));
     }
 
     public void updateWineCount(){
-        TextView text = (TextView)findViewById(R.id.wineDP);
-        TextSwitcher TS = (TextSwitcher)findViewById(R.id.wineCount);
+       TSWine.setText("Wines: " +Integer.toString(wine));
+    }
 
-        TS.removeView(text);
-        TS.addView(text);
-        text.setText("Wines: " +Integer.toString(wine));
+    public void updateTotalCount(){
+        TSTotal.setText("Total: "+Integer.toString((int)count));
     }
 
     public void updateBAC(double bac){
-        TextView text = (TextView)findViewById(R.id.bacDP);
-        TextSwitcher TS = (TextSwitcher)findViewById(R.id.bacDisplay);
-
-        TS.removeView(text);
-        TS.addView(text);
         if(bac >= 0.25)
-            text.setTextColor(Color.parseColor("#ff0000"));
+            ((TextView)TSBac.getNextView()).setTextColor(Color.parseColor("#ff0000"));
         else if (bac<=0.08)
-            text.setTextColor(Color.parseColor("#00e600"));
+            ((TextView)TSBac.getNextView()).setTextColor(Color.parseColor("#00e600"));
         else
-            text.setTextColor(Color.parseColor("#e6e600"));
-        text.setText("BAC \n " + Double.toString(new BigDecimal(bac)
+            ((TextView)TSBac.getNextView()).setTextColor(Color.parseColor("#e6e600"));
+        TSBac.setText("BAC \n " + Double.toString(new BigDecimal(bac)
                 .setScale(4,RoundingMode.HALF_DOWN).doubleValue()));
+    }
 
+    public void createTS(){
+        ViewFactory factory = new ViewFactory() {
+            public View makeView() {
+                TextView myText = new TextView(CounterScreen.this);
+                myText.setTextSize(20);
+                myText.setTextColor(Color.parseColor("#D4AF37"));
+                myText.setGravity(Gravity.CENTER);
+                return myText;
+            }
+        };
+
+        Animation in = AnimationUtils.loadAnimation(this, android.R.anim.slide_in_left);
+        Animation out = AnimationUtils.loadAnimation(this, android.R.anim.slide_out_right);
+        in.setDuration(300);
+        out.setDuration(300);
+
+        TSShot = (TextSwitcher) findViewById(R.id.shotCount);
+        TSShot.setFactory(factory);
+        TSShot.setInAnimation(in);
+        TSShot.setOutAnimation(out);
+
+        TSMixed = (TextSwitcher) findViewById(R.id.mixedCount);
+        TSMixed.setFactory(factory);
+        TSMixed.setInAnimation(in);
+        TSMixed.setOutAnimation(out);
+
+        TSBeer = (TextSwitcher) findViewById(R.id.beerCount);
+        TSBeer.setFactory(factory);
+        TSBeer.setInAnimation(in);
+        TSBeer.setOutAnimation(out);
+
+        TSWine = (TextSwitcher) findViewById(R.id.wineCount);
+        TSWine.setFactory(factory);
+        TSWine.setInAnimation(in);
+        TSWine.setOutAnimation(out);
+
+        TSTotal = (TextSwitcher) findViewById(R.id.totalCount);
+        TSTotal.setFactory(factory);
+        TSTotal.setInAnimation(in);
+        TSTotal.setOutAnimation(out);
+
+        ViewFactory factoryBAC = new ViewFactory() {
+            public View makeView() {
+                TextView myText = new TextView(CounterScreen.this);
+                myText.setTextSize(40);
+                myText.setTextColor(Color.parseColor("#D4AF37"));
+                myText.setGravity(Gravity.CENTER);
+                return myText;
+            }
+        };
+
+        Animation out2 = AnimationUtils.loadAnimation(this, android.R.anim.fade_out);
+        Animation in2 = AnimationUtils.loadAnimation(this, android.R.anim.fade_in);
+        in2.setDuration(400);
+        out2.setDuration(400);
+
+        TSBac = (TextSwitcher) findViewById(R.id.bacDisplay);
+        TSBac.setFactory(factoryBAC);
+        TSBac.setInAnimation(in2);
+        TSBac.setOutAnimation(out2);
     }
 }
