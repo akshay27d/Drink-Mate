@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.Toast;
 import java.util.Date;
 import java.text.SimpleDateFormat;
@@ -28,6 +29,10 @@ import java.math.RoundingMode;
 import android.graphics.Color;
 import android.widget.ViewSwitcher.ViewFactory;
 import 	android.view.Gravity;
+import android.view.View.OnLongClickListener;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.widget.PopupMenu;
 
 public class CounterScreen extends AppCompatActivity {
 
@@ -38,13 +43,13 @@ public class CounterScreen extends AppCompatActivity {
     protected int shot;
     protected int wine;
     protected int beer;
+    protected String last;
     protected TextSwitcher TSShot;
     protected TextSwitcher TSBeer;
     protected TextSwitcher TSMixed;
     protected TextSwitcher TSWine;
     protected TextSwitcher TSTotal;
     protected TextSwitcher TSBac;
-    protected double bacGlobal =0;
 
 
     @Override
@@ -53,6 +58,7 @@ public class CounterScreen extends AppCompatActivity {
         setContentView(R.layout.activity_counter_screen);
         checkUI();
         createTS();
+        last=" ";
     }
 
     @Override
@@ -200,15 +206,10 @@ public class CounterScreen extends AppCompatActivity {
         } while(true);
 
         updateShotCount();
-
         updateBeerCount();
-
         updateMixedCount();
-
         updateWineCount();
-
         updateTotalCount();
-
         calculateBAC();
 
     }
@@ -351,4 +352,64 @@ public class CounterScreen extends AppCompatActivity {
         TSBac.setInAnimation(in2);
         TSBac.setOutAnimation(out2);
     }
+
+    public void optionsClicked(View view) {
+        PopupMenu options = new PopupMenu(CounterScreen.this, (ImageButton) findViewById(R.id.options));
+        options.getMenuInflater().inflate(R.menu.popup_menu, options.getMenu());
+
+        options.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+            public boolean onMenuItemClick(MenuItem item) {
+                if(item.getTitle().equals("Undo")){
+
+                    Context con = getApplication();
+                    SQLiteDatabase myDB = con.openOrCreateDatabase("DMDB", MODE_PRIVATE, null);
+                    Cursor curs = myDB.query("CountTable", null, "Time = (SELECT MAX(Time) FROM CountTable)", null, null, null, null);
+                    curs.moveToLast();
+                    Log.d("FAULT", curs.getString(1));
+                    boolean go=true;
+                    try {
+                        switch (curs.getString(1)) {
+                            case "Wine":
+                                if(wine!=0){
+                                    wine--;
+                                    updateWineCount();}
+                                break;
+                            case "Beer":
+                                if(beer!=0){
+                                    beer--;
+                                    updateBeerCount();}
+                                break;
+                            case "Shot":
+                                if(shot!=0){
+                                    shot--;
+                                    updateShotCount();}
+                                break;
+                            case "Mixed":
+                                if(mixed!=0){
+                                    mixed--;
+                                    updateMixedCount();}
+                                break;
+                            default:
+                                go = false;
+                        }
+                    }catch(Exception e){}
+                    if(go){
+                        if(count!=0){
+                            count--;
+                            updateTotalCount();
+                            calculateBAC();}
+                    }
+                    Intent intent = getIntent();
+                    Bundle extras = intent.getExtras();
+                    Db = (Intent) extras.get("Db");
+                    Db.putExtra("order", "removeLast");
+                    startService(Db);
+                }
+                return true;
+            }
+        });
+        options.show();//showing popup menu
+    }
+
 }
+

@@ -14,6 +14,8 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.database.SQLException;
 import android.content.ContentValues;
 import android.database.Cursor;
+import android.widget.Toast;
+
 
 import java.util.concurrent.TimeUnit;
 
@@ -43,6 +45,9 @@ public class DbMethods extends IntentService{
         }
         else if (orders[0].equals("drinkEntered")){
             drinkEntered(orders[1], myDB);
+        }
+        else if(order.equals("removeLast")){
+            removeDrink(myDB);
         }
     }
 
@@ -101,6 +106,13 @@ public class DbMethods extends IntentService{
         }catch(SQLException e){
             myDB.update("UserInfo",myVals,null, null);
         }
+        myDB.close();
+    }
+
+    public void removeDrink(SQLiteDatabase myDB){
+        try {
+            myDB.delete("CountTable", "Time >= datetime('now', '-12 hours') AND Time = (SELECT MAX(Time) FROM CountTable)", null);
+        }catch(SQLException e){e.printStackTrace();}
         myDB.close();
     }
 

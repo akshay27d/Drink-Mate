@@ -15,16 +15,13 @@
         android:scaleType="fitCenter"
         android:adjustViewBounds="true"
 
-        app:layout_constraintRight_toLeftOf="@+id/Shot"
-        android:layout_marginRight="24dp"
-        android:layout_marginLeft="24dp"
-        app:layout_constraintLeft_toLeftOf="parent"
         android:onClick= "mixedClicked"
         android:layout_marginStart="24dp"
         android:layout_marginEnd="24dp"
-        app:layout_constraintHorizontal_bias="0.52"
         android:layout_marginTop="16dp"
-        app:layout_constraintTop_toBottomOf="@+id/title" />
+        app:layout_constraintTop_toBottomOf="@+id/title"
+        android:layout_marginLeft="40dp"
+        app:layout_constraintLeft_toLeftOf="parent" />
 
     <ImageButton
         android:id="@+id/Shot"
@@ -33,10 +30,11 @@
         app:srcCompat="@drawable/shot"
         android:scaleType="fitCenter"
         android:adjustViewBounds="true"
+        android:onClick= "shotClicked"
+        android:longClickable="true"
+        android:layout_marginEnd="25dp"
         android:layout_marginRight="25dp"
         app:layout_constraintRight_toRightOf="parent"
-        android:onClick= "shotClicked"
-        android:layout_marginEnd="25dp"
         android:layout_marginTop="16dp"
         app:layout_constraintTop_toBottomOf="@+id/title" />
 
@@ -47,16 +45,13 @@
         app:srcCompat="@drawable/wine"
         android:scaleType="fitCenter"
         android:adjustViewBounds="true"
-        app:layout_constraintRight_toLeftOf="@+id/Beer"
-        android:layout_marginRight="24dp"
-        android:layout_marginLeft="24dp"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintHorizontal_bias="0.512"
         android:layout_marginTop="24dp"
         app:layout_constraintTop_toBottomOf="@+id/Mixed"
         android:onClick= "wineClicked"
         android:layout_marginStart="24dp"
-        android:layout_marginEnd="24dp" />
+        android:layout_marginEnd="24dp"
+        android:layout_marginLeft="40dp"
+        app:layout_constraintLeft_toLeftOf="parent" />
 
     <ImageButton
         android:id="@+id/Beer"
@@ -65,12 +60,12 @@
         android:adjustViewBounds="true"
         android:scaleType="fitCenter"
         app:srcCompat="@drawable/beer"
+        android:onClick= "beerClicked"
+        android:layout_marginEnd="25dp"
         android:layout_marginRight="25dp"
         app:layout_constraintRight_toRightOf="parent"
         android:layout_marginTop="24dp"
-        app:layout_constraintTop_toBottomOf="@+id/Shot"
-        android:onClick= "beerClicked"
-        android:layout_marginEnd="25dp" />
+        app:layout_constraintTop_toBottomOf="@+id/Shot" />
 
     <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="fill_parent"
@@ -157,11 +152,27 @@
 
     <ImageView
         android:id="@+id/title"
-        android:layout_width="364dp"
-        android:layout_height="75dp"
+        android:layout_width="239dp"
+        android:layout_height="61dp"
         app:srcCompat="@drawable/title"
-        tools:layout_editor_absoluteX="23dp"
         app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginTop="0dp" />
+        android:layout_marginTop="0dp"
+        android:layout_marginLeft="16dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:layout_marginRight="16dp"
+        app:layout_constraintRight_toRightOf="parent" />
+
+    <ImageButton
+        android:id="@+id/options"
+        android:layout_width="45dp"
+        android:layout_height="60dp"
+        android:layout_marginLeft="16dp"
+        android:adjustViewBounds="true"
+        android:background="@null"
+        android:scaleType="fitCenter"
+        app:layout_constraintLeft_toRightOf="@+id/title"
+        app:srcCompat="@drawable/dots"
+        tools:layout_editor_absoluteY="0dp"
+        android:onClick="optionsClicked"/>
 
 </android.support.constraint.ConstraintLayout>
