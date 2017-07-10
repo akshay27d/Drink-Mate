@@ -255,8 +255,9 @@ public class CounterScreen extends AppCompatActivity {
             e.printStackTrace();
         }
 
-        Log.d("BACCC", Double.toString(bac));
-
+        if(bac<0)
+            bac=0;
+        
         updateBAC(bac);
     }
 
@@ -287,7 +288,7 @@ public class CounterScreen extends AppCompatActivity {
             ((TextView)TSBac.getNextView()).setTextColor(Color.parseColor("#00e600"));
         else
             ((TextView)TSBac.getNextView()).setTextColor(Color.parseColor("#e6e600"));
-        TSBac.setText("BAC \n " + Double.toString(new BigDecimal(bac)
+        TSBac.setText("BAC\n" + Double.toString(new BigDecimal(bac)
                 .setScale(4,RoundingMode.HALF_DOWN).doubleValue()));
     }
 

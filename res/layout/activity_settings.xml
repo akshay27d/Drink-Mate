@@ -48,7 +48,7 @@
 
         <RadioGroup
             android:id="@+id/sexGroup"
-            android:layout_width="110dp"
+            android:layout_width="80dp"
             android:layout_height="66dp"
             android:layout_below="@id/SettingsTitle"
             android:layout_toRightOf="@id/sexPrompt"
@@ -101,18 +101,25 @@
             android:textColor="#D4AF37"
             />
 
-        <Button
-            android:id="@+id/EnterButton"
-            android:layout_width="75dp"
+        <ImageView
+            android:id="@+id/checkSex"
+            android:layout_width="60dp"
             android:layout_height="40dp"
-            android:layout_alignTop="@id/weightPrompt"
-            android:layout_toRightOf="@id/weightEnter"
-            android:text="@string/enter"
-            android:textSize="15sp"
-            android:layout_below="@id/sexGroup"
-            android:layout_marginLeft="5dp"
-            android:onClick="enterClicked"
-            />
+            android:layout_below="@+id/SettingsTitle"
+            android:layout_marginTop="6dp"
+            android:layout_toEndOf="@+id/sexGroup"
+            android:layout_toRightOf="@id/maleButton"
+            app:layout_constraintTop_toTopOf="@id/maleButton"
+            app:srcCompat="@drawable/check" />
+
+        <ImageView
+            android:id="@+id/checkweight"
+            android:layout_width="60dp"
+            android:layout_height="40dp"
+            android:layout_below="@+id/sexGroup"
+            android:layout_toEndOf="@+id/weightEnter"
+            app:srcCompat="@drawable/check" />
+
     </RelativeLayout>
 
     <ImageView
@@ -120,12 +127,14 @@
         android:layout_width="364dp"
         android:layout_height="75dp"
         app:srcCompat="@drawable/title"
-        app:layout_constraintTop_toTopOf="parent"
         android:layout_marginTop="0dp"
         android:layout_marginLeft="0dp"
         app:layout_constraintLeft_toLeftOf="parent"
         android:layout_marginRight="0dp"
-        app:layout_constraintRight_toRightOf="parent" />
+        app:layout_constraintRight_toRightOf="parent"
+        />
+
+    />
 
 
 </android.support.constraint.ConstraintLayout>
