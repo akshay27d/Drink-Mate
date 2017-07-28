@@ -59,11 +59,12 @@ public class DbMethods extends IntentService{
         String create = "CREATE TABLE IF NOT EXISTS "+UserInfo+" ( "+ID+" INTEGER PRIMARY KEY, "+sex+" TEXT ,"+weight+" INTEGER);";
         myDB.execSQL(create);
 
-        String countTable = "CountTable";
+        String CountTable = "CountTable";
         String time = "Time";
         String type = "Type";
-        create = "CREATE TABLE IF NOT EXISTS "+countTable+" ( "+time+" DATETIME PRIMARY KEY DEFAULT CURRENT_TIMESTAMP, "+type+" TEXT);";
+        create = "CREATE TABLE IF NOT EXISTS "+CountTable+" ( "+time+" DATETIME PRIMARY KEY DEFAULT CURRENT_TIMESTAMP, "+type+" TEXT);";
         myDB.execSQL(create);
+
         myDB.close();
     }
 
@@ -115,6 +116,7 @@ public class DbMethods extends IntentService{
         }catch(SQLException e){e.printStackTrace();}
         myDB.close();
     }
+
 
 
 }

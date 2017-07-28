@@ -261,8 +261,7 @@ public class CounterScreen extends AppCompatActivity {
         updateBAC(bac);
     }
 
-    public void updateShotCount(){
-        TSShot.setText("Shots: "+Integer.toString(shot));
+    public void updateShotCount(){TSShot.setText("Shots: "+Integer.toString(shot));
     }
 
     public void updateBeerCount(){
